@@ -8,5 +8,5 @@ const app = express();
 app.use(express.json()); //global middleware
 app.use(cookieParser());
 app.use("/user", userRouter); // base Route with which router to use
-app.use("/auth", authRouter) // for authentication
+app.use("/auth", authRouter); // for authentication
 app.listen(3000);
