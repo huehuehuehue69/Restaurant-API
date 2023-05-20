@@ -13,6 +13,6 @@ userRouter
   .delete(deleteUser);
 
 
-userRouter.route("/:id").get(getUserById)
+userRouter.route("/:id").get(getUserById);
 
 module.exports = userRouter;
