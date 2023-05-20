@@ -41,6 +41,15 @@ const userSchema = mongoose.Schema({
       return this.confirmPassword == this.password;
     },
   },
+  role: {
+    type: String,
+    enum: ["admin", "user", "owner", "deliveryBoy"],
+    default: "user",
+  },
+  profileImage: {
+    type: String,
+    default: "/image/user/default.jpeg",
+  },
 });
 
 //function for creating user
@@ -77,6 +86,5 @@ userSchema.pre("save", function () {
 // })
 // user model
 const userModel = mongoose.model("userModel", userSchema);
-
 
 module.exports = userModel;

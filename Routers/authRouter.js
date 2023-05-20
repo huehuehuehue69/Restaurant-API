@@ -1,6 +1,5 @@
 const express = require("express");
 const authRouter = express.Router();
-const protectRoute = require('./authHelper');
 const userModel = require("../models/userModels");
 const jwt = require("jsonwebtoken");
 const JWT_KEY = require("../secrets.js");

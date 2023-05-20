@@ -1,18 +1,34 @@
 const express = require("express");
 const userRouter = express.Router();
-const protectRoute = require('./authHelper');
 const userModel = require("../models/userModels");
-const {getUser, getUserById, updateUser, deleteUser, postUser} = require("../controllers/userController");
-userRouter
+const {getUser, updateUser, deleteUser, getAllUsers} = require("../controllers/userController");
+const {signup, login, isAuthorised, protectRoute} = require("../controllers/authController")
 
-  .route("/")
-  .get(protectRoute, getUser)
-  
-  .post(postUser)
+//user options
+userRouter 
+  .route("/:id")
   .patch(updateUser)
-  .delete(deleteUser);
+  .delete(deleteUser)
 
+userRouter
+  .route("/signup")
+  .post(signup)
 
-userRouter.route("/:id").get(getUserById);
+userRouter
+  .route("/login")
+  .post(login)
+
+//profile function
+userRouter.use(protectRoute);
+userRouter
+  .route("/profile")
+  .get(getUser)
+
+//admin specific func
+userRouter.use(isAuthorised(["admin"]))
+userRouter 
+  .route('/')
+  .get(getAllUsers)
+
 
 module.exports = userRouter;
