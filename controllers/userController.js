@@ -88,10 +88,16 @@ module.exports.deleteUser = async function deleteUser(req, res) {
 module.exports.getAllUsers = async function getAllUsers(req, res) {
   try {
     let users = await userModel.find();
+    console.log(users);
     if (users) {
       return res.json({
         message: "users retrieved",
         data: users,
+      });
+    }
+    else{
+      return res.status(404).json({
+        message : "user not found"
       });
     }
   } catch (err) {

@@ -88,23 +88,34 @@ module.exports.protectRoute = async function protectRoute(req, res, next) {
     if (req.cookies.login) {
       token = req.cookies.login;
       let payload = jwt.verify(token, JWT_KEY);
+    //   console.log(payload);
       if (payload) {
         const user = await userModel.findById(payload.payload);
         req.role = user.role;
         req.id = user.id;
         next();
-      } else {
-        
+      } 
+      else {
         //browser
         const client = req.get("User-Agent");
-        if(client.includes("Mozilla")==true){
-            return res.redirect("/login");
+        if (client.includes("Mozilla") == true) {
+          return res.redirect("/login");
         }
         //postman
         return res.json({
           message: "please login",
         });
       }
+    } 
+    else {
+      const client = req.get("User-Agent");
+      if (client.includes("Mozilla") == true) {
+        return res.redirect("/login");
+      }
+      //postman
+      return res.json({
+        message: "please login",
+      });
     }
   } catch (err) {
     res.json({
@@ -161,9 +172,9 @@ module.exports.resetpassword = async function resetpassword(req, res) {
 };
 
 //logout function
-module.exports.logout = function logout(req, res){
-    res.cookie("login" , " ", {maxAge : 1});//replace token from login cookie and destroy the cookie after 1 ms.
-    res.json({
-        message : "user logged out successfully",
-    })
+module.exports.logout = function logout(req, res) {
+  res.cookie("login", " ", { maxAge: 1 }); //replace token from login cookie and destroy the cookie after 1 ms.
+  res.json({
+    message: "user logged out successfully",
+  });
 };
