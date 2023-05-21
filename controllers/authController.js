@@ -6,13 +6,13 @@ const JWT_KEY = require("../secrets");
 module.exports.signup = async function signup(req, res) {
   try {
     let dataObj = req.body;
-    if(!dataObj.password==dataObj.confirmPassword){
-        return res.status(401).json({
-            message: "Password does not match"
-        });
+    if (!dataObj.password == dataObj.confirmPassword) {
+      return res.status(401).json({
+        message: "Password does not match",
+      });
     }
     let user = await userModel.create(dataObj);
-    user.save();
+    await user.save();
     if (user) {
       return res.json({
         message: "user signed up",
@@ -94,7 +94,14 @@ module.exports.protectRoute = async function protectRoute(req, res, next) {
         req.id = user.id;
         next();
       } else {
-        res.json({
+        
+        //browser
+        const client = req.get("User-Agent");
+        if(client.includes("Mozilla")==true){
+            return res.redirect("/login");
+        }
+        //postman
+        return res.json({
           message: "please login",
         });
       }
@@ -104,4 +111,59 @@ module.exports.protectRoute = async function protectRoute(req, res, next) {
       message: err.message,
     });
   }
+};
+
+//forgot password
+module.exports.forgotpassword = async function forgotpassword(req, res) {
+  let { useremail } = req.body;
+  try {
+    const user = await userModel.findOne({ email: useremail });
+    if (user) {
+      const resetToken = user.createResetToken();
+      let resetPasswordLink = `${req.protocol}://${req.get(
+        "host"
+      )}/resetpassword/${req.resetToken}`;
+    } else {
+      return res.json({
+        message: "please signup",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
+//reset password
+module.exports.resetpassword = async function resetpassword(req, res) {
+  try {
+    const token = req.params.token;
+    let { password, confirmPassword } = req.body;
+    const user = await userModel.findOne({ resetToken: token });
+    if (user) {
+      //resetPassword handler will update user in data base
+      user.resetpasswordHandler(password, confirmPassword);
+      await user.save();
+      res.json({
+        message: "password changed successfully. Please login again",
+      });
+    } else {
+      return res.json({
+        message: "please signup",
+      });
+    }
+  } catch (err) {
+    return res.json({
+      message: err.message,
+    });
+  }
+};
+
+//logout function
+module.exports.logout = function logout(req, res){
+    res.cookie("login" , " ", {maxAge : 1});//replace token from login cookie and destroy the cookie after 1 ms.
+    res.json({
+        message : "user logged out successfully",
+    })
 };

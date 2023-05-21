@@ -2,7 +2,7 @@ const express = require("express");
 const userRouter = express.Router();
 const userModel = require("../models/userModels");
 const {getUser, updateUser, deleteUser, getAllUsers} = require("../controllers/userController");
-const {signup, login, isAuthorised, protectRoute} = require("../controllers/authController")
+const {signup, login, isAuthorised, protectRoute, forgotpassword,resetpassword,logout} = require("../controllers/authController")
 
 //user options
 userRouter 
@@ -24,12 +24,24 @@ userRouter
   .route("/profile")
   .get(getUser)
   
-
 //admin specific func
 userRouter.use(isAuthorised(["admin"]))
 userRouter 
   .route('/')
   .get(getAllUsers)
 
+//forgot password
+userRouter
+  .route("/forgotpassword")
+  .post(forgotpassword)
+
+//reset passward 
+userRouter
+  .route("/resetpassword/:token")
+  .post(resetpassword)
+
+userRouter
+  .route("/logout")
+  .get(logout)
 
 module.exports = userRouter;

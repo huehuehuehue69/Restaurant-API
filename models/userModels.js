@@ -35,11 +35,10 @@ const userSchema = mongoose.Schema({
   },
   confirmPassword: {
     type: String,
-    required: true,
     minLength: 8,
-    // validate: function () {
-    //   return this.confirmPassword == this.password;
-    // },
+    validate: function () {
+      return this.confirmPassword == this.password;
+    },
   },
   role: {
     type: String,
@@ -50,6 +49,7 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "/image/user/default.jpeg",
   },
+  resetpassword : String
 });
 
 //function for creating user
@@ -78,6 +78,19 @@ userSchema.pre("save", function () {
   this.confirmPassword = undefined;
 });
 
+//generate reset token
+userSchema.methods.createResetToken = function(){
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  this.resetToken = resetToken;
+  return resetToken;
+}
+
+//resetpassword Handler
+userSchema.methods.resetPasswordHandler = function(password, confirmPassword){
+  this.password = password;
+  this.confirmPassword = confirmPassword;
+  this.resetToken = undefined;
+}
 //hash function
 // userSchema.pre("save", async function(){
 //     let salt = await bcrypt.genSalt();
