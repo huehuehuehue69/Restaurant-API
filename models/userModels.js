@@ -37,9 +37,9 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     minLength: 8,
-    validate: function () {
-      return this.confirmPassword == this.password;
-    },
+    // validate: function () {
+    //   return this.confirmPassword == this.password;
+    // },
   },
   role: {
     type: String,

@@ -2,8 +2,9 @@ const userModel = require('../models/userModels');
 
 module.exports.getUser = async function getUser(req, res) {
   try {
-    let id = req.params.id;
+    let id = req.id;
     let user = await userModel.findById(id);
+    console.log(user);
     if (user) {
       return res.json(user);
     } 

@@ -1,4 +1,3 @@
-
 const userModel = require("../models/userModels");
 const jwt = require("jsonwebtoken");
 const JWT_KEY = require("../secrets");
@@ -7,7 +6,13 @@ const JWT_KEY = require("../secrets");
 module.exports.signup = async function signup(req, res) {
   try {
     let dataObj = req.body;
+    if(!dataObj.password==dataObj.confirmPassword){
+        return res.status(401).json({
+            message: "Password does not match"
+        });
+    }
     let user = await userModel.create(dataObj);
+    user.save();
     if (user) {
       return res.json({
         message: "user signed up",
@@ -31,6 +36,7 @@ module.exports.login = async function login(req, res) {
     let data = req.body;
     if (data.email) {
       let user = await userModel.findOne({ email: data.email });
+      console.log(user);
       if (user) {
         if (user.password == data.password) {
           let uid = user["_id"];
@@ -79,7 +85,7 @@ module.exports.isAuthorised = function isAuthorised(roles) {
 module.exports.protectRoute = async function protectRoute(req, res, next) {
   let token;
   try {
-    if (req.cookies.login) { 
+    if (req.cookies.login) {
       token = req.cookies.login;
       let payload = jwt.verify(token, JWT_KEY);
       if (payload) {
@@ -88,15 +94,10 @@ module.exports.protectRoute = async function protectRoute(req, res, next) {
         req.id = user.id;
         next();
       } else {
-        return res.json({
-          message: "user not defined",
+        res.json({
+          message: "please login",
         });
       }
-    }
-    else{
-        res.json({
-            message : "please login"
-        })
     }
   } catch (err) {
     res.json({

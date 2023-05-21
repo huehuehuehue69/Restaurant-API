@@ -23,6 +23,7 @@ userRouter.use(protectRoute);
 userRouter
   .route("/profile")
   .get(getUser)
+  
 
 //admin specific func
 userRouter.use(isAuthorised(["admin"]))
