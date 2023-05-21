@@ -6,14 +6,14 @@ mongoose
   .connect(db_link)
   .then(function (db) {
     // console.log(db);
-    console.log("plan connect");
+    console.log("review connect");
   })
   .catch(function (err) {
     console.log("plan is not connect");
   });
 
 const reviewSchema = new mongoose.Schema({
-    reveiw : {
+    review : {
         type : String,
         required : [true, "review is required"], 
     },

@@ -6,11 +6,11 @@ module.exports.getUser = async function getUser(req, res) {
     let user = await userModel.findById(id);
     if (user) {
       return res.json(user);
-    } 
-    else {
-      return res.status(404).json({ message: "User not found"});
     }
-  } 
+    else {
+      return res.status(404).json({ message: "User not found" });
+    }
+  }
   catch (error) {
     // console.error("Error retrieving user:", error);
     return res.status(500).json({ message: "An error occurred while retrieving the user" });
@@ -95,9 +95,9 @@ module.exports.getAllUsers = async function getAllUsers(req, res) {
         data: users,
       });
     }
-    else{
+    else {
       return res.status(404).json({
-        message : "user not found"
+        message: "user not found"
       });
     }
   } catch (err) {

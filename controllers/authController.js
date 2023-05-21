@@ -71,11 +71,17 @@ module.exports.login = async function login(req, res) {
 //isAuthorised = to check the users's role
 module.exports.isAuthorised = function isAuthorised(roles) {
   return function (req, res, next) {
-    if (roles.includes(req.role) == true) {
-      next();
-    } else {
-      res.status(401).json({
-        message: "operation not allowed",
+    try {
+      if (roles.includes(req.role) == true) {
+        next();
+      } else {
+        res.status(401).json({
+          message: "operation not allowed",
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        message: err.message,
       });
     }
   };
@@ -88,14 +94,13 @@ module.exports.protectRoute = async function protectRoute(req, res, next) {
     if (req.cookies.login) {
       token = req.cookies.login;
       let payload = jwt.verify(token, JWT_KEY);
-    //   console.log(payload);
+      //   console.log(payload);
       if (payload) {
         const user = await userModel.findById(payload.payload);
         req.role = user.role;
         req.id = user.id;
         next();
-      } 
-      else {
+      } else {
         //browser
         const client = req.get("User-Agent");
         if (client.includes("Mozilla") == true) {
@@ -106,8 +111,7 @@ module.exports.protectRoute = async function protectRoute(req, res, next) {
           message: "please login",
         });
       }
-    } 
-    else {
+    } else {
       const client = req.get("User-Agent");
       if (client.includes("Mozilla") == true) {
         return res.redirect("/login");
