@@ -1,16 +1,16 @@
 const mongoose = require("mongoose"); 
 //mongoose
-const db_link = process.env.DATABASE;
-// console.log(db_link)
-mongoose
-  .connect(db_link)
-  .then(function (db) {
-    // console.log(db);
-    console.log("review connect");
-  })
-  .catch(function (err) {
-    console.log("plan is not connect");
-  });
+// const db_link = process.env.DATABASE;
+// // console.log(db_link)
+// mongoose
+//   .connect(db_link)
+//   .then(function (db) {
+//     // console.log(db);
+//     console.log("review connect");
+//   })
+//   .catch(function (err) {
+//     console.log(err);
+//   });
 
 const reviewSchema = new mongoose.Schema({
     review : {

@@ -3,17 +3,17 @@ const emailValidator = require("email-validator");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 //mongoose
-const db_link = process.env.DATABASE;
+// const db_link = "mongodb://127.0.0.1:27017/personal";
 // console.log(db_link)
-mongoose
-  .connect(db_link)
-  .then(function (db) {
-    // console.log(db);
-    console.log("database connect");
-  })
-  .catch(function (err) {
-    console.log("mongodb is not connect");
-  });
+// mongoose
+//   .connect(db_link)
+//   .then(function (db) {
+//     // console.log(db);
+//     console.log("database connect");
+//   })
+//   .catch(function (err) {
+//     console.log("mongodb is not connect");
+//   });
 
 //schema of database
 const userSchema = mongoose.Schema({

@@ -3,6 +3,7 @@ const crypto = require("crypto");
 const stripe = require("stripe");
 const userModel = require("./models/userModels");
 const planModel = require("./models/planModel");
+
 const cors = require("cors");
 const multer = require("multer");
 require("dotenv").config();
@@ -31,3 +32,17 @@ app.use("/plans", planRouter); // for plans
 app.use("/reviews", reviewRouter); //for reviews
 app.use("/payment", paymentRouter); //for payments
 
+//database
+const mongoose = require("mongoose"); 
+//mongoose
+const db_link = process.env.DATABASE;
+// console.log(db_link)
+mongoose
+  .connect(db_link)
+  .then(function (db) {
+    // console.log(db);
+    console.log("database connected");
+  })
+  .catch(function (err) {
+    console.log(err);
+  });
