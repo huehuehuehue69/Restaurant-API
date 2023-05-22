@@ -26,7 +26,7 @@ module.exports.createSession = async function createSession(req, res) {
                 }
             ],
             success_url: `${req.protocol}://${req.get("host")}/profile`,
-            cancel_url: `${req.protocal}://${req.get("host")}/profile`
+            cancel_url: `${req.protocol}://${req.get("host")}/profile`
         });
         // res.status(303).redirect("D:/BackendDevelopment/public/index.html");
         console.log(session);
