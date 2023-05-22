@@ -1,6 +1,8 @@
 const userModel = require("../models/userModels");
 const jwt = require("jsonwebtoken");
 const JWT_KEY = require("../secrets");
+const {sendMail} = require("../utility/nodeMailer")
+const crypto = require("crypto");
 
 //signup
 module.exports.signup = async function signup(req, res) {
@@ -12,6 +14,7 @@ module.exports.signup = async function signup(req, res) {
       });
     }
     let user = await userModel.create(dataObj);
+    sendMail("signup", user);
     await user.save();
     if (user) {
       return res.json({
@@ -130,14 +133,22 @@ module.exports.protectRoute = async function protectRoute(req, res, next) {
 
 //forgot password
 module.exports.forgotpassword = async function forgotpassword(req, res) {
-  let { useremail } = req.body;
   try {
-    const user = await userModel.findOne({ email: useremail });
+    let {email} = req.body;
+    const user = await userModel.findOne({ email: email });
+    console.log(user);
     if (user) {
-      const resetToken = user.createResetToken();
+      const resetToken = await user.createResetToken();
+      console.log("yes");
+      
       let resetPasswordLink = `${req.protocol}://${req.get(
         "host"
       )}/resetpassword/${req.resetToken}`;
+
+      await sendMail("forgetpassword", { email, resetPasswordLink });
+      res.json({
+        message : "email sent successfully"
+      })
     } else {
       return res.json({
         message: "please signup",

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const emailValidator = require("email-validator");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 //mongoose
 const db_link = "mongodb://127.0.0.1:27017/personal";
 // console.log(db_link)

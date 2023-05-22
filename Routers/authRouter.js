@@ -3,6 +3,7 @@ const authRouter = express.Router();
 const userModel = require("../models/userModels");
 const jwt = require("jsonwebtoken");
 const JWT_KEY = require("../secrets.js");
+const {sendMail} = require("../utility/nodeMailer")
 authRouter.route("/signup").get(middleware, getSignUp).post(postSignUp);
 
 authRouter.route("/login").post(loginUser);

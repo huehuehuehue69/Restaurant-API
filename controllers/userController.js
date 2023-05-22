@@ -106,3 +106,10 @@ module.exports.getAllUsers = async function getAllUsers(req, res) {
     });
   }
 };
+
+//code 
+module.exports.updateProfileImage = function updateProfileImage(req, res) {
+  res.json({
+    message: "file Upload Successfully"
+  })
+};

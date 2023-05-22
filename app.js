@@ -3,6 +3,7 @@ const crypto = require("crypto");
 const stripe = require("stripe");
 const userModel = require("./models/userModels");
 const planModel = require("./models/planModel");
+const multer = require("multer");
 const cookieParser = require("cookie-parser");
 const userRouter = require("./Routers/userRouter");
 const authRouter = require("./Routers/authRouter");
