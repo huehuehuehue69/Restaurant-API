@@ -1,6 +1,6 @@
 const userModel = require("../models/userModels");
 const jwt = require("jsonwebtoken");
-const JWT_KEY = require("../secrets");
+const JWT_KEY = process.env.JWT_KEY;
 const {sendMail} = require("../utility/nodeMailer")
 const crypto = require("crypto");
 
@@ -139,8 +139,7 @@ module.exports.forgotpassword = async function forgotpassword(req, res) {
     console.log(user);
     if (user) {
       const resetToken = await user.createResetToken();
-      console.log("yes");
-      
+      console.log(resetToken);
       let resetPasswordLink = `${req.protocol}://${req.get(
         "host"
       )}/resetpassword/${req.resetToken}`;

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose"); 
 //mongoose
-const db_link = "mongodb://127.0.0.1:27017/personal";
+const db_link = process.env.DATABASE;
 // console.log(db_link)
 mongoose
   .connect(db_link)

@@ -1,5 +1,5 @@
 // This is your test secret API key.
-let SK = ("sk_test_51NAGvzSGECe7nJzRxbUN33uCr4kdNr47kp9p1FGtOxIVtQXMmrGROc33e2N1UTILsJ5rMhMszGqX5wziLETehJlb001ubTp4ud");
+const SK = process.env.SK;
 const stripe = require('stripe')(SK);
 const planModel = require("../models/planModel");
 const userModels = require("../models/userModels");

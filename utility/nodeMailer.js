@@ -21,9 +21,8 @@ module.exports.sendMail = async function sendMail(str, data) {
   if (str == "signup") {
     eSubj = `Thank You for signing ${data.name}`;
     eHtml = `
-        <h1>Welcome to foodApp.com</h1>
-        Hope you have a great experience 
-        Here are your details
+        <h1>Bsdk</h1>
+        pet bhar khana khao
         Name - ${data.name}
         Email - ${data.email}
         `;
@@ -37,7 +36,7 @@ module.exports.sendMail = async function sendMail(str, data) {
   }
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Food App ✌" <lakshyadeeptilak@gmail.com>', // sender address
+    from: '"Khanaa Khao 👀" <lakshyadeeptilak@gmail.com>', // sender address
     to: data.email, // list of receivers
     subject: eSubj, // Subject line
     // text: "Hello world?", // plain text body
