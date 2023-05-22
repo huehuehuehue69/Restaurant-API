@@ -1,5 +1,6 @@
 const express = require("express");
 const crypto = require("crypto");
+const stripe = require("stripe");
 const userModel = require("./models/userModels");
 const planModel = require("./models/planModel");
 const cookieParser = require("cookie-parser");
@@ -7,6 +8,7 @@ const userRouter = require("./Routers/userRouter");
 const authRouter = require("./Routers/authRouter");
 const planRouter = require("./Routers/planRouter");
 const reviewRouter = require("./Routers/reviewRouter");
+const paymentRouter = require("./Routers/paymentRouter");
 const app = express();
 //middle ware function used in POST method to convert frontend data to json format
 app.use(express.json()); //global middleware
@@ -15,4 +17,5 @@ app.use("/user", userRouter); // base Route with which router to use
 app.use("/auth", authRouter); // for authentication
 app.use("/plans", planRouter); // for plans
 app.use("/reviews", reviewRouter); //for reviews
+app.use("/payment", paymentRouter); //for payments
 app.listen(3000);
