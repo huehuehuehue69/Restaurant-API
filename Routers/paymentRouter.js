@@ -2,11 +2,13 @@ const express = require("express");
 const paymentRouter = express.Router();
 const {createSession} = require("../controllers/paymentController");
 const { protectRoute } = require("../controllers/authController");
-paymentRouter.use(express.static("public"));
+const path = require('path');
+// paymentRouter.use(express.static("public"));
 paymentRouter
     .route('/createSession')
     .get(function (req, res) {
-        res.sendFile("D:/BackendDevelopment/public/payment.html");
+        const filePath = path.join(__dirname, '../public/payment.html');
+        res.sendFile(filePath);
 });
 // paymentRouter.use(protectRoute);
 paymentRouter
