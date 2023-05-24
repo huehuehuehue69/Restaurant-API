@@ -93,11 +93,11 @@ userSchema.methods.resetPasswordHandler = function(password, confirmPassword){
   this.resetToken = undefined;
 }
 //hash function
-// userSchema.pre("save", async function(){
-//     let salt = await bcrypt.genSalt();
-//     let hashedString = await bcrypt.hash(this.password, salt);
-//     this.password = hashedString;
-// })
+userSchema.pre("save", async function(){
+    let salt = await bcrypt.genSalt();
+    let hashedString = await bcrypt.hash(this.password, salt);
+    this.password = hashedString;
+})
 // user model
 const userModel = mongoose.model("userModel", userSchema);
 

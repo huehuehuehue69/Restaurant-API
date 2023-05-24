@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const JWT_KEY = process.env.JWT_KEY;
 const {sendMail} = require("../utility/nodeMailer")
 const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 //signup
 module.exports.signup = async function signup(req, res) {
@@ -41,7 +42,8 @@ module.exports.login = async function login(req, res) {
       let user = await userModel.findOne({ email: data.email });
       console.log(user);
       if (user) {
-        if (user.password == data.password) {
+        const match = bcrypt.compare(data.password, user.password);
+        if (match) {
           let uid = user["_id"];
           let jwtToken = jwt.sign({ payload: uid }, JWT_KEY);
           res.cookie("login", jwtToken, { httpOnly: true });
